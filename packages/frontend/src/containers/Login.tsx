@@ -9,7 +9,7 @@ import { useFormFields } from "../lib/hooksLib";
 import LoaderButton from "../components/LoaderButton.tsx";
 
 export default function Login() {
-  const { userHasAuthenticated } = useAppContext();
+  const { userHasAuthenticated, setUser } = useAppContext();
   const [isLoading, setIsLoading] = useState(false);
   const [fields, handleFieldChange] = useFormFields({
     email: "",
@@ -28,6 +28,7 @@ export default function Login() {
     try {
       await Auth.signIn(fields.email, fields.password);
       userHasAuthenticated(true);
+      setUser({ email: fields.email });
     } catch (error) {
       onError(error);
       setIsLoading(false);

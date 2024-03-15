@@ -3,11 +3,11 @@ import ListGroup from "react-bootstrap/ListGroup";
 import { useAppContext } from "../lib/contextLib";
 import { onError } from "../lib/errorLib";
 import { NoteType } from "../types/note";
+import NewNote from "./NewNote.tsx";
 import "./Home.css";
 
 import { API } from "aws-amplify";
 
-import { BsPencilSquare } from "react-icons/bs";
 import { LinkContainer } from "react-router-bootstrap";
 
 export default function Home() {
@@ -45,12 +45,7 @@ export default function Home() {
   function renderNotesList(notes: NoteType[]) {
     return (
       <>
-        <LinkContainer to="/notes/new">
-          <ListGroup.Item action className="py-3 text-nowrap text-truncate">
-            <BsPencilSquare size={17} />
-            <span className="ms-2 fw-bold">Create a new note</span>
-          </ListGroup.Item>
-        </LinkContainer>
+        <NewNote />
         {notes.map(({ noteId, content, createdAt }) => (
           <LinkContainer key={noteId} to={`/notes/${noteId}`}>
             <ListGroup.Item action className="text-nowrap text-truncate">
