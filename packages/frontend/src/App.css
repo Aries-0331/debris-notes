@@ -1,3 +1,7 @@
 .navbar .dropdown:hover .dropdown-menu {
   display: block;
 }
+
+.sidebar {
+  background-color: aliceblue;
+}
