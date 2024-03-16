@@ -1,29 +1,27 @@
 import "./App.css";
 import Navbar from "react-bootstrap/Navbar";
-import Routes from "./Routes.tsx";
+import Links from "./Routes.tsx";
 import Nav from "react-bootstrap/Nav";
 import { LinkContainer } from "react-router-bootstrap";
 import { Auth } from "aws-amplify";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { AppContext, AppContextType, useAppContext } from "./lib/contextLib";
+import { AppContext, AppContextType } from "./lib/contextLib";
 import { onError } from "./lib/errorLib";
 import { NavDropdown } from "react-bootstrap";
 
 function App() {
   const nav = useNavigate();
-  const [isAuthenticated, userHasAuthenticated] = useState(false);
-  const [user, setUser] = useState<null | { email: string }>(null);
+  const [user, setUser] = useState({ email: "", isAuthenticated: false });
   const [isAuthenticating, setIsAuthenticating] = useState(true);
 
   useEffect(() => {
     onLoad();
-  }, []);
+  }, [user]);
 
   async function onLoad() {
     try {
       await Auth.currentSession();
-      userHasAuthenticated(true);
     } catch (error) {
       if (error !== "No current user") {
         onError(error);
@@ -36,7 +34,7 @@ function App() {
   async function handleLogout() {
     await Auth.signOut();
 
-    userHasAuthenticated(false);
+    setUser({ email: "", isAuthenticated: false });
 
     nav("/login");
   }
@@ -50,13 +48,12 @@ function App() {
           <Navbar.Toggle />
           <Navbar.Collapse className="justify-content-end">
             <Nav activeKey={window.location.pathname}>
-              {isAuthenticated ? (
+              {user.isAuthenticated ? (
                 <>
-                  <NavDropdown
-                    title={user?.email.split("@")[0]}
-                    id="basic-nav-dropdown"
-                  >
-                    <NavDropdown.Item>Billing</NavDropdown.Item>
+                  <NavDropdown title={user.email} id="basic-nav-dropdown">
+                    <LinkContainer to="/settings">
+                      <NavDropdown.Item>Settings</NavDropdown.Item>
+                    </LinkContainer>
                     <NavDropdown.Item onClick={handleLogout}>
                       Logout
                     </NavDropdown.Item>
@@ -78,14 +75,12 @@ function App() {
         <AppContext.Provider
           value={
             {
-              isAuthenticated,
-              userHasAuthenticated,
               user,
               setUser,
             } as AppContextType
           }
         >
-          <Routes />
+          <Links />
         </AppContext.Provider>
       </div>
     )

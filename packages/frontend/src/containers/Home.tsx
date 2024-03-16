@@ -12,8 +12,9 @@ import { LinkContainer } from "react-router-bootstrap";
 
 export default function Home() {
   const [notes, setNotes] = useState<Array<NoteType>>([]);
-  const { isAuthenticated } = useAppContext();
   const [isLoading, setIsLoading] = useState(true);
+  const { user } = useAppContext();
+  const isAuthenticated = user?.isAuthenticated;
 
   useEffect(() => {
     async function onLoad() {
@@ -32,7 +33,7 @@ export default function Home() {
     }
 
     onLoad();
-  }, [isAuthenticated]);
+  }, [user, isAuthenticated]);
 
   function loadNotes() {
     return API.get("notes", "/notes", {});

@@ -7,9 +7,11 @@ import { useAppContext } from "../lib/contextLib";
 import { onError } from "../lib/errorLib";
 import { useFormFields } from "../lib/hooksLib";
 import LoaderButton from "../components/LoaderButton.tsx";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-  const { userHasAuthenticated, setUser } = useAppContext();
+  const nav = useNavigate();
+  const { setUser } = useAppContext();
   const [isLoading, setIsLoading] = useState(false);
   const [fields, handleFieldChange] = useFormFields({
     email: "",
@@ -27,12 +29,12 @@ export default function Login() {
 
     try {
       await Auth.signIn(fields.email, fields.password);
-      userHasAuthenticated(true);
-      setUser({ email: fields.email });
+      setUser({ email: fields.email, isAuthenticated: true });
     } catch (error) {
       onError(error);
-      setIsLoading(false);
     }
+    setIsLoading(false);
+    nav("/");
   }
 
   return (
