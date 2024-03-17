@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import LoaderButton from "../components/LoaderButton";
 import config from "../config";
 import "./NewNote.css";
+import { Container, Row, Col } from "react-bootstrap";
 
 import { API } from "aws-amplify";
 import { NoteType } from "../types/note";
@@ -18,11 +19,6 @@ export default function NewNote() {
 
   function validateForm() {
     return content.length > 0;
-  }
-
-  function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
-    if (event.currentTarget.files === null) return;
-    file.current = event.currentTarget.files[0];
   }
 
   function createNote(note: NoteType) {
@@ -59,29 +55,33 @@ export default function NewNote() {
   }
 
   return (
-    <div className="NewNote">
-      <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="content">
-          <Form.Control
-            value={content}
-            as="textarea"
-            onChange={(e) => setContent(e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group className="mt-2" controlId="file">
-          <Form.Label>Attachment</Form.Label>
-          <Form.Control onChange={handleFileChange} type="file" />
-        </Form.Group>
-        <LoaderButton
-          size="lg"
-          type="submit"
-          variant="primary"
-          isLoading={isLoading}
-          disabled={!validateForm()}
-        >
-          Create
-        </LoaderButton>
-      </Form>
-    </div>
+    <Container>
+      <Row>
+        <Col className="editor-content">
+          <Form onSubmit={handleSubmit}>
+            <Form.Control
+              value={content}
+              as="textarea"
+              onChange={(e) => setContent(e.target.value)}
+              placeholder="Write a new note"
+            />
+          </Form>
+        </Col>
+      </Row>
+      <Row>
+        <Col className="editor-menu-bar">
+          <LoaderButton
+            className="btn"
+            size="xs"
+            type="submit"
+            variant="secondary"
+            isLoading={isLoading}
+            disabled={!validateForm()}
+          >
+            Commit
+          </LoaderButton>
+        </Col>
+      </Row>
+    </Container>
   );
 }

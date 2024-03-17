@@ -5,3 +5,15 @@
 .sidebar {
   background-color: aliceblue;
 }
+
+.div1 {
+  width: 100%;
+  max-width: 900px;
+  margin: auto;
+}
+
+@media (max-width: 600px) {
+  .div1 {
+    width: 100%;
+  }
+}

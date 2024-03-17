@@ -1,4 +1,9 @@
-.NewNote form textarea {
+.newNote from textarea {
   height: 300px;
   font-size: 1.5rem;
+}
+
+.editor-menu-bar {
+  display: flex;
+  justify-content: flex-end;
 }

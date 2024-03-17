@@ -1,9 +1,17 @@
 import { useState, useEffect } from "react";
-import ListGroup from "react-bootstrap/ListGroup";
+import {
+  Container,
+  Row,
+  Col,
+  ListGroup,
+  Button,
+  Collapse,
+} from "react-bootstrap";
 import { useAppContext } from "../lib/contextLib";
 import { onError } from "../lib/errorLib";
 import { NoteType } from "../types/note";
 import NewNote from "./NewNote.tsx";
+import SideBar from "./SideBar.tsx";
 import "./Home.css";
 
 import { API } from "aws-amplify";
@@ -11,6 +19,7 @@ import { API } from "aws-amplify";
 import { LinkContainer } from "react-router-bootstrap";
 
 export default function Home() {
+  const [open, setOpen] = useState(false);
   const [notes, setNotes] = useState<Array<NoteType>>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAppContext();
@@ -33,7 +42,7 @@ export default function Home() {
     }
 
     onLoad();
-  }, [user, isAuthenticated]);
+  }, [isAuthenticated]);
 
   function loadNotes() {
     return API.get("notes", "/notes", {});
@@ -46,7 +55,6 @@ export default function Home() {
   function renderNotesList(notes: NoteType[]) {
     return (
       <>
-        <NewNote />
         {notes.map(({ noteId, content, createdAt }) => (
           <LinkContainer key={noteId} to={`/notes/${noteId}`}>
             <ListGroup.Item action className="text-nowrap text-truncate">
@@ -64,25 +72,36 @@ export default function Home() {
 
   function renderLander() {
     return (
-      <div className="lander">
-        <h1>Debris</h1>
-        <p className="text-muted">A simple note taking app</p>
-      </div>
+      <Container className="lander">
+        <Col>
+          <h1>Debris</h1>
+          <p className="text-muted">A simple note taking app</p>
+        </Col>
+      </Container>
     );
   }
 
   function renderNotes() {
     return (
-      <div className="notes">
-        <h2 className="pb-3 mt-4 mb-3 border-bottom">Your Notes</h2>
-        <ListGroup>{!isLoading && renderNotesList(notes)}</ListGroup>
-      </div>
+      <Container>
+        <Row>
+          <Col xs={12} md={4}>
+            <SideBar />
+          </Col>
+          <Col xs={12} md={8}>
+            <Row>
+              <NewNote />
+            </Row>
+            <Row>
+              <div>
+                <ListGroup>{!isLoading && renderNotesList(notes)}</ListGroup>
+              </div>
+            </Row>
+          </Col>
+        </Row>
+      </Container>
     );
   }
 
-  return (
-    <div className="Home">
-      {isAuthenticated ? renderNotes() : renderLander()}
-    </div>
-  );
+  return <div>{isAuthenticated ? renderNotes() : renderLander()}</div>;
 }
