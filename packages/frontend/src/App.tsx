@@ -1,7 +1,7 @@
 import "./App.css";
 import Navbar from "react-bootstrap/Navbar";
 import Links from "./Routes.tsx";
-import { Container, Row, Nav, NavDropdown } from "react-bootstrap";
+import { Container, Row, Col, Nav, NavDropdown } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { Auth } from "aws-amplify";
 import { useState, useEffect } from "react";
@@ -39,15 +39,10 @@ function App() {
   }
   return (
     !isAuthenticating && (
-      <div className="div1">
-        <Container fluid className="flex-container">
-          <Row>
-            <Navbar
-              collapseOnSelect
-              bg="light"
-              expand="md"
-              className="mb-3 px-3"
-            >
+      <Container fluid className="app bg-light">
+        <Row>
+          <Col>
+            <Navbar collapseOnSelect expand="md" className="mb-3 px-3">
               <LinkContainer to="/">
                 <Navbar.Brand className="fw-bold text-muted">
                   Debris
@@ -80,8 +75,10 @@ function App() {
                 </Nav>
               </Navbar.Collapse>
             </Navbar>
-          </Row>
-          <Row>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
             <AppContext.Provider
               value={
                 {
@@ -92,9 +89,9 @@ function App() {
             >
               <Links />
             </AppContext.Provider>
-          </Row>
-        </Container>
-      </div>
+          </Col>
+        </Row>
+      </Container>
     )
   );
 }

@@ -3,7 +3,6 @@ import Home from "./containers/Home.tsx";
 import NotFound from "./containers/NotFound.tsx";
 import Login from "./containers/Login.tsx";
 import Signup from "./containers/Signup.tsx";
-import NewNote from "./containers/NewNote.tsx";
 import Notes from "./containers/Notes.tsx";
 import Settings from "./containers/Settings.tsx";
 import AuthenticatedRoute from "./components/AuthenticatedRoute.tsx";
@@ -39,14 +38,14 @@ export default function Links() {
           </AuthenticatedRoute>
         }
       />
-      <Route
+      {/* <Route
         path="/notes/new"
         element={
           <AuthenticatedRoute>
             <NewNote />
           </AuthenticatedRoute>
         }
-      />
+      /> */}
       <Route
         path="/notes/:id"
         element={

@@ -54,54 +54,63 @@ export default function Home() {
 
   function renderNotesList(notes: NoteType[]) {
     return (
-      <>
+      <Container fluid>
         {notes.map(({ noteId, content, createdAt }) => (
-          <LinkContainer key={noteId} to={`/notes/${noteId}`}>
-            <ListGroup.Item action className="text-nowrap text-truncate">
-              <span className="fw-bold">{content.trim().split("\n")[0]}</span>
-              <br />
-              <span className="text-muted">
-                Created: {formatDate(createdAt)}
-              </span>
-            </ListGroup.Item>
-          </LinkContainer>
+          <Row style={{ padding: "5px 0" }}>
+            <Col>
+              <LinkContainer
+                key={noteId}
+                to={`/notes/${noteId}`}
+                style={{ border: "none", borderRadius: "10px" }}
+              >
+                <ListGroup.Item action className="text-nowrap text-truncate">
+                  <span className="text-muted note-item note-date">
+                    {formatDate(createdAt)}
+                  </span>
+                  <br />
+                  <span>{content}</span>
+                </ListGroup.Item>
+              </LinkContainer>
+            </Col>
+          </Row>
         ))}
-      </>
+      </Container>
     );
   }
 
   function renderLander() {
     return (
-      <Container className="lander">
-        <Col>
-          <h1>Debris</h1>
-          <p className="text-muted">A simple note taking app</p>
-        </Col>
-      </Container>
-    );
-  }
-
-  function renderNotes() {
-    return (
-      <Container>
+      <Container fluid className="lander">
         <Row>
-          <Col xs={12} md={4}>
-            <SideBar />
-          </Col>
-          <Col xs={12} md={8}>
-            <Row>
-              <NewNote />
-            </Row>
-            <Row>
-              <div>
-                <ListGroup>{!isLoading && renderNotesList(notes)}</ListGroup>
-              </div>
-            </Row>
+          <Col>
+            <h1>Debris</h1>
+            <p className="text-muted">A simple note taking app</p>
           </Col>
         </Row>
       </Container>
     );
   }
 
-  return <div>{isAuthenticated ? renderNotes() : renderLander()}</div>;
+  function renderNotes() {
+    return (
+      <Container fluid>
+        <Row>
+          <Col>
+            <NewNote />
+          </Col>
+        </Row>
+        <Row style={{ padding: "10px 0" }}>
+          <Col>
+            <ListGroup>{!isLoading && renderNotesList(notes)}</ListGroup>
+          </Col>
+        </Row>
+      </Container>
+    );
+  }
+
+  return (
+    <Container fluid>
+      {isAuthenticated ? renderNotes() : renderLander()}
+    </Container>
+  );
 }
