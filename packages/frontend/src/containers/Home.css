@@ -17,4 +17,19 @@
   font-size: 0.8rem;
   font-weight: 400;
   color: gray;
+  padding: 10px 0 0 0;
+}
+
+.note-bar-menu {
+  margin-right: 20px;
+}
+
+.dropdown-toggle::after,
+.btn::after {
+  display: none !important;
+}
+
+.note-list {
+  border: "none";
+  border-radius: 10px;
 }

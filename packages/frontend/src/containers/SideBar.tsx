@@ -1,10 +1,8 @@
-import { Container, Row, Col } from "react-bootstrap";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 import Heatmap from "./HeatMap.tsx";
 import { data } from "./Data.tsx";
-import { useState } from "react";
-import Alert from "react-bootstrap/Alert";
-import Button from "react-bootstrap/Button";
-import Offcanvas from "react-bootstrap/Offcanvas";
 
 export default function SideBar() {
   return (

@@ -19,11 +19,11 @@ function querystring(name: string, url = window.location.href) {
 }
 
 export default function UnauthenticatedRoute(props: Props) {
-  const { isAuthenticated } = useAppContext();
+  const { user } = useAppContext();
   const { children } = props;
   const redirect = querystring("redirect");
 
-  if (isAuthenticated) {
+  if (user?.isAuthenticated) {
     return <Navigate to={redirect || "/"} />;
   }
 

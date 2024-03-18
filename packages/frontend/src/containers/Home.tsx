@@ -1,25 +1,15 @@
 import { useState, useEffect } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  ListGroup,
-  Button,
-  Collapse,
-} from "react-bootstrap";
+import { Container, Row, Col, ListGroup, Dropdown } from "react-bootstrap";
 import { useAppContext } from "../lib/contextLib";
 import { onError } from "../lib/errorLib";
 import { NoteType } from "../types/note";
 import NewNote from "./NewNote.tsx";
-import SideBar from "./SideBar.tsx";
+import Note from "./Note.tsx";
 import "./Home.css";
 
 import { API } from "aws-amplify";
 
-import { LinkContainer } from "react-router-bootstrap";
-
 export default function Home() {
-  const [open, setOpen] = useState(false);
   const [notes, setNotes] = useState<Array<NoteType>>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAppContext();
@@ -48,36 +38,6 @@ export default function Home() {
     return API.get("notes", "/notes", {});
   }
 
-  function formatDate(str: undefined | string) {
-    return !str ? "" : new Date(str).toLocaleString();
-  }
-
-  function renderNotesList(notes: NoteType[]) {
-    return (
-      <Container fluid>
-        {notes.map(({ noteId, content, createdAt }) => (
-          <Row style={{ padding: "5px 0" }}>
-            <Col>
-              <LinkContainer
-                key={noteId}
-                to={`/notes/${noteId}`}
-                style={{ border: "none", borderRadius: "10px" }}
-              >
-                <ListGroup.Item action className="text-nowrap text-truncate">
-                  <span className="text-muted note-item note-date">
-                    {formatDate(createdAt)}
-                  </span>
-                  <br />
-                  <span>{content}</span>
-                </ListGroup.Item>
-              </LinkContainer>
-            </Col>
-          </Row>
-        ))}
-      </Container>
-    );
-  }
-
   function renderLander() {
     return (
       <Container fluid className="lander">
@@ -101,7 +61,24 @@ export default function Home() {
         </Row>
         <Row style={{ padding: "10px 0" }}>
           <Col>
-            <ListGroup>{!isLoading && renderNotesList(notes)}</ListGroup>
+            {notes.map(({ noteId, content, createdAt }) => (
+              <Row className="note-content" style={{ padding: "5px 0" }}>
+                <Col>
+                  <ListGroup key={noteId} className="note-list">
+                    <ListGroup.Item
+                      action
+                      className="text-nowrap text-truncate"
+                    >
+                      <Note
+                        noteId={noteId}
+                        content={content}
+                        createdAt={createdAt}
+                      />
+                    </ListGroup.Item>
+                  </ListGroup>
+                </Col>
+              </Row>
+            ))}
           </Col>
         </Row>
       </Container>

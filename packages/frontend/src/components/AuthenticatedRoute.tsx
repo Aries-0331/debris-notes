@@ -8,9 +8,9 @@ export default function AuthenticatedRoute({
   children: ReactElement;
 }): ReactElement {
   const { pathname, search } = useLocation();
-  const { isAuthenticated } = useAppContext();
+  const { user } = useAppContext();
 
-  if (!isAuthenticated) {
+  if (!user?.isAuthenticated) {
     return <Navigate to={`/login?redirect=${pathname}${search}`} />;
   }
 

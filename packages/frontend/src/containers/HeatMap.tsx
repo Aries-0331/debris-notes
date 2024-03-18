@@ -37,9 +37,9 @@ export default function Heatmap({ width, height, data }: HeatmapProps) {
 
   // Color scale
   const colorScale = d3
-    .scaleLinear()
-    .domain([Number(min), Number(max)])
-    .range(["white", "green"]);
+    .scaleSequential()
+    .domain([min, max])
+    .interpolator(d3.interpolateGreens);
 
   // Build the rectangles
   const allRects = data.map((d, i) => {
