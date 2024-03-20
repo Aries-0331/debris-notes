@@ -4,20 +4,13 @@ export interface User {
   email: string;
   isAuthenticated: boolean;
 }
-// export interface AppContextType {
-//   isAuthenticated: boolean;
-//   userHasAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
-//   user: User | null;
-//   setUser: React.Dispatch<React.SetStateAction<User | null>>;
-// }
+
 export interface AppContextType {
   user: User | null;
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
 export const AppContext = createContext<AppContextType>({
-  // isAuthenticated: false,
-  // userHasAuthenticated: useAppContext,
   user: null,
   setUser: () => {},
 });

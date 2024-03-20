@@ -11,7 +11,10 @@ import { onError } from "./lib/errorLib";
 
 function App() {
   const nav = useNavigate();
-  const [user, setUser] = useState({ email: "", isAuthenticated: false });
+  const [user, setUser] = useState({
+    email: "",
+    isAuthenticated: false,
+  });
   const [isAuthenticating, setIsAuthenticating] = useState(true);
 
   useEffect(() => {

@@ -29,6 +29,10 @@
   display: none !important;
 }
 
+.notes-container {
+  padding: 0 !important;
+}
+
 .note-list {
   border: "none";
   border-radius: 10px;

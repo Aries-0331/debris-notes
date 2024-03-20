@@ -1,4 +1,23 @@
-.Notes form textarea {
-  height: 300px;
-  font-size: 1.5rem;
+.saved-note-container {
+  padding: 0 !important;
+}
+
+.note-bar-time {
+  font-size: 14px;
+}
+
+.note-bar-menu {
+  padding: 0 !important;
+}
+
+.note-bar-dropdown {
+  padding: 0 !important;
+}
+
+.note-bar-toggle {
+  padding: 0 !important;
+}
+
+.note-content {
+  padding-bottom: 5px;
 }
