@@ -6,7 +6,6 @@ import dynamoDb from "@notes/core/dynamoDb";
 export const main = handler(async (event) => {
   let data = {
     content: "",
-    attachment: "",
   };
 
   if (event.body != null) {
