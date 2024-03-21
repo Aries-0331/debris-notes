@@ -56,7 +56,10 @@ function App() {
                 <Nav activeKey={window.location.pathname}>
                   {user.isAuthenticated ? (
                     <>
-                      <NavDropdown title={user.email} id="basic-nav-dropdown">
+                      <NavDropdown
+                        title={user.email.split("@")[0]}
+                        id="basic-nav-dropdown"
+                      >
                         <LinkContainer to="/settings">
                           <NavDropdown.Item>Settings</NavDropdown.Item>
                         </LinkContainer>

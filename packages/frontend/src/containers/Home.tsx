@@ -1,15 +1,13 @@
+import "./Home.css";
 import { useState, useEffect } from "react";
+import { API } from "aws-amplify";
 import { Container, Row, Col, ListGroup } from "react-bootstrap";
+import { v1 as uuidv1 } from "uuid";
 import { useAppContext } from "../lib/contextLib";
 import { onError } from "../lib/errorLib";
-import { API } from "aws-amplify";
+import { NoteType } from "../types/note";
 import NewNote from "./NewNote.tsx";
 import Note from "./Note.tsx";
-import { NoteType } from "../types/note";
-import "./Home.css";
-import { v1 as uuidv1 } from "uuid";
-
-// import { API } from "aws-amplify";
 
 export default function Home() {
   const [notes, setNotes] = useState<Array<NoteType>>([]);
@@ -38,19 +36,18 @@ export default function Home() {
   }
 
   async function handleNewNote(content: string) {
-    // try {
-    //   await API.post("notes", "/notes", {
-    //     body: content,
-    //   });
-
-    // } catch (e) {
-    //   onError(e);
-    // }
     const noteId = uuidv1();
     setNotes([
       ...notes,
       { noteId, content, createdAt: new Date().toISOString() },
     ]);
+    try {
+      await API.post("notes", "/notes", {
+        body: content,
+      });
+    } catch (e) {
+      onError(e);
+    }
   }
 
   async function handleDelete(noteId: string | undefined) {
@@ -88,6 +85,12 @@ export default function Home() {
   }
 
   function renderNotes() {
+    // const sortedNotes = [...notes].sort((a: NoteType, b: NoteType) => {
+    //   if (a.createdAt && b.createdAt) {
+    //     return b.createdAt.localeCompare(a.createdAt);
+    //   }
+    //   return 0;
+    // });
     return (
       <Container fluid className="notes-container">
         <Row>
@@ -97,7 +100,7 @@ export default function Home() {
         </Row>
         <Row style={{ padding: "10px 0" }}>
           <Col>
-            {notes?.map(({ noteId, content, createdAt }) => (
+            {notes.map(({ noteId, content, createdAt }) => (
               <Row
                 key={noteId}
                 className="note-content"

@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import "./NewNote.css";
 import { Container, Row } from "react-bootstrap";
@@ -10,11 +10,7 @@ interface NewNoteProps {
 export default function NewNote(props: NewNoteProps) {
   const inputRef = useRef<HTMLFormElement>(null);
   const [content, setContent] = useState("");
-  // const [isLoading, setIsLoading] = useState(false);
-
-  // function validateForm() {
-  //   return content.length > 0;
-  // }
+  const [textareaHeight, setTextareaHeight] = useState("80px");
 
   const handleFormClick = () => {
     if (inputRef.current) {
@@ -22,9 +18,36 @@ export default function NewNote(props: NewNoteProps) {
     }
   };
 
-  function handleSubmit() {
-    props.onNewNote(content);
+  function handleSubmit(event: React.FormEvent) {
+    if (content.length > 0) {
+      event.preventDefault();
+      props.onNewNote(content);
+      setContent("");
+    }
   }
+
+  function handleKeyDown(event: React.KeyboardEvent<HTMLTextAreaElement>) {
+    if (event.key === "Enter") {
+      if (event.shiftKey) {
+        event.preventDefault();
+        const cursorPosition = event.currentTarget.selectionStart;
+        const contentBeforeCursor = content.slice(0, cursorPosition);
+        const contentAfterCursor = content.slice(cursorPosition);
+        setContent(contentBeforeCursor + "\n" + contentAfterCursor);
+      } else {
+        event.preventDefault();
+        handleSubmit(event);
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (inputRef.current) {
+      const scrollHeight = inputRef.current.scrollHeight;
+      const newHeight = Math.min(scrollHeight, 150) + "px";
+      setTextareaHeight(newHeight);
+    }
+  }, [content]);
 
   return (
     <Container>
@@ -35,16 +58,17 @@ export default function NewNote(props: NewNoteProps) {
           ref={inputRef}
         >
           <Form.Control
+            as="textarea"
             style={{
               width: "100%",
-              height: "80px",
+              height: textareaHeight,
               paddingTop: "5px",
               border: "none",
               boxShadow: "none",
             }}
-            type="text"
             value={content}
             onChange={(e) => setContent(e.target.value)}
+            onKeyDown={handleKeyDown}
             placeholder="Write a new note"
           />
           <div

@@ -1,21 +1,26 @@
 ## Note App Demo
 
-![alt img](image.png)
 The demo app is a single page application powered by a serverless API written completely in TypeScript.
 
-It's my practice project for React, so there may be some mistakes, and the implements partly comes from the sst-dev's [guide](https://sst.dev/guide).
+It's my practice project for React, so there may be some mistakes, and the technology selection and back-end architecture mainly comes from the sst-dev's [guide](https://sst.dev/guide).
+
+![alt image](/screenshot/homepage.png)
+![alt image](/screenshot/signup.png)
+![alt image](/screenshot/login.png)
+![alt image](/screenshot/notelist.png)
+![alt image](/screenshot/phone-homepage.png)
+
+## Authenticated API Architecture
+
+![alt image](/screenshot/serverless-auth-api-architecture.png)
 
 ## Features:
 
-- Allow users to signup and login to their accounts
-- Users should be able to create notes with some content
-- Each note can also have an uploaded file as an attachment
-- Allow users to modify their note and the attachment
-- Users can also delete their notes
-- The app should be able to process credit card payments
-- App should be served over HTTPS on a custom domain
-- The backend APIs need to be secure
-- The app needs to be responsive
+- Account Signup and login
+- Create / modify / delete notes
+- Add credit card payment
+- Served over HTTPS on a AWS's CloudFront domain
+- Responsive design
 
 ## Technologies & Services
 

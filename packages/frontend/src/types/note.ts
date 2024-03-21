@@ -1,5 +1,5 @@
 export interface NoteType {
-  noteId?: string;
+  noteId: string;
   content: string;
-  createdAt?: string;
+  createdAt: string;
 }
