@@ -83,8 +83,8 @@ function App() {
             </Navbar>
           </Col>
         </Row>
-        <Row>
-          <Col>
+        <Row className="row-content">
+          <Col className="col-content">
             <AppContext.Provider
               value={
                 {
@@ -96,6 +96,9 @@ function App() {
               <Links />
             </AppContext.Provider>
           </Col>
+        </Row>
+        <Row className="row-footer">
+          <Col>Footer</Col>
         </Row>
       </Container>
     )

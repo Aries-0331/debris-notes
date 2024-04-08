@@ -1,7 +1,26 @@
 .app {
+  display: flex;
+  flex-direction: column;
   width: 100%;
+  min-height: 100vh;
   max-width: 900px;
   margin: auto;
+}
+
+.row-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.col-content {
+  display: flex;
+}
+
+.row-footer {
+  display: flex;
+  text-align: center;
+  margin-top: 20px;
 }
 
 @media (max-width: 600px) {
