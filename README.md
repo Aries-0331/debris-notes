@@ -1,4 +1,4 @@
-## Note App Demo
+## DebrisNotes
 
 The demo app is a single page application powered by a serverless API written completely in TypeScript.
 
